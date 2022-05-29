@@ -19,10 +19,10 @@ if not fname:
 else:
     layout = [[sg.Text("Local: "+fname)],
           [sg.Text("Remote: BB-wcs-US:"+os.path.basename(fname))],
-          [sg.Text("-------------------------------------------")],
+          [sg.Text("DIRECTION-------------------------------------------")],
           [sg.T("         "), sg.Radio('Local to Remote', "RADIO1", default=True, key="-IN1-")],
           [sg.T("         "), sg.Radio('Remote to Local', "RADIO1", default=False)],
-          [sg.Text("-------------------------------------------")],         
+          [sg.Text("COPY/CLONE------------------------------------------")],         
           [sg.T("         "), sg.Radio('Copy', "RADIO2", default=True, key="-IN2-")],
           [sg.T("         "), sg.Radio('Clone', "RADIO2", default=False)],
           [sg.Text("-------------------------------------------")],
