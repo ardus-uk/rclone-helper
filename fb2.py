@@ -3,7 +3,10 @@
 import PySimpleGUI as sg
 import sys
 import os
+import subprocess
 
+valid_remotes = subprocess.getoutput('rclone listremotes').splitlines()
+print(valid_remotes)
 
 event, values = sg.Window('Local Directory Selection',
                 [[sg.Text('Select local directory')],
@@ -14,16 +17,23 @@ if values[0]:
 else:
     fname = os.getcwd()
 
-remote = fname.split("/")
+
+remote_path_parts = fname.split("/")
+print(remote_path_parts)
+
+remote = remote_path_parts[4]+":"
 print(remote)
 
+if remote not in valid_remotes:
+    sg.popup(remote+" is not a valid Backblaze bucket")
+    raise SystemExit("Cancelling - not a valid Backblaze bucket")   
 
 if not fname:
     sg.popup("Cancel", "No directory name supplied")
     raise SystemExit("Cancelling: no directory name supplied")
 else:
     layout = [[sg.Text("Local: "+fname)],
-          [sg.Text("Remote: "+remote[4]+":"+os.path.basename(fname))],
+          [sg.Text("Remote: "+remote+os.path.basename(fname))],
           [sg.Text("DIRECTION------------------------------------------------")],
           [sg.T("         "), sg.Radio('Local to Remote', "RADIO1", default=True, key="-IN1-")],
           [sg.T("         "), sg.Radio('Remote to Local', "RADIO1", default=False)],
